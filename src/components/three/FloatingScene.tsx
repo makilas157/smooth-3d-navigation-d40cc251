@@ -1,0 +1,112 @@
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Environment, Float, Lightformer, MeshTransmissionMaterial } from "@react-three/drei";
+import { useMemo, useRef } from "react";
+import * as THREE from "three";
+
+type Variant = "hero" | "header";
+
+const AMBER = "#f0a83c";
+const EMBER = "#e2703a";
+
+function Shape({
+  position,
+  scale,
+  geometry,
+  color,
+  spin,
+}: {
+  position: [number, number, number];
+  scale: number;
+  geometry: "ico" | "torus" | "box" | "octa";
+  color: string;
+  spin: number;
+}) {
+  const ref = useRef<THREE.Mesh>(null);
+
+  useFrame((_, rawDelta) => {
+    const dt = Math.min(rawDelta, 0.05);
+    if (!ref.current) return;
+    ref.current.rotation.x += dt * spin * 0.4;
+    ref.current.rotation.y += dt * spin * 0.6;
+  });
+
+  return (
+    <Float speed={1.1} rotationIntensity={0.6} floatIntensity={1.2}>
+      <mesh ref={ref} position={position} scale={scale}>
+        {geometry === "ico" && <icosahedronGeometry args={[1, 0]} />}
+        {geometry === "octa" && <octahedronGeometry args={[1, 0]} />}
+        {geometry === "torus" && <torusGeometry args={[0.85, 0.3, 32, 64]} />}
+        {geometry === "box" && <boxGeometry args={[1.3, 1.3, 1.3]} />}
+        <MeshTransmissionMaterial
+          thickness={0.7}
+          roughness={0.15}
+          chromaticAberration={0.35}
+          anisotropy={0.3}
+          ior={1.4}
+          backside
+          color={color}
+          samples={4}
+          resolution={128}
+        />
+      </mesh>
+    </Float>
+  );
+}
+
+function Rig({ strength }: { strength: number }) {
+  const { camera, pointer } = useThree();
+  const target = useMemo(() => new THREE.Vector3(), []);
+
+  useFrame((_, rawDelta) => {
+    const dt = Math.min(rawDelta, 0.05);
+    target.set(pointer.x * strength, pointer.y * strength * 0.6, camera.position.z);
+    const k = 1 - Math.exp(-3 * dt);
+    camera.position.x += (target.x - camera.position.x) * k;
+    camera.position.y += (target.y - camera.position.y) * k;
+    camera.lookAt(0, 0, 0);
+  });
+
+  return null;
+}
+
+export default function FloatingScene({ variant = "header" }: { variant?: Variant }) {
+  const hero = variant === "hero";
+
+  return (
+    <Canvas
+      className="pointer-events-none"
+      dpr={[1, 1.6]}
+      gl={{ antialias: true, alpha: true }}
+      camera={{ position: [0, 0, hero ? 8 : 9.5], fov: 45 }}
+    >
+      <ambientLight intensity={0.6} />
+      <directionalLight position={[6, 8, 6]} intensity={1.4} color={AMBER} />
+      <pointLight position={[-6, -3, 4]} intensity={30} color={EMBER} />
+
+      <Environment resolution={64}>
+        <Lightformer intensity={2.4} position={[0, 5, 2]} scale={[12, 8, 1]} color="#ffd9a0" />
+        <Lightformer
+          intensity={1.4}
+          color={EMBER}
+          position={[-6, 1, -1]}
+          rotation-y={Math.PI / 2}
+          scale={[18, 2, 1]}
+        />
+        <Lightformer
+          intensity={1}
+          color="#8899bb"
+          position={[6, -2, 1]}
+          rotation-y={-Math.PI / 2}
+          scale={[18, 2, 1]}
+        />
+      </Environment>
+
+      <Shape position={[-3.6, 1.1, 0]} scale={hero ? 1.5 : 1.1} geometry="ico" color={AMBER} spin={0.5} />
+      <Shape position={[3.7, -0.8, -1]} scale={hero ? 1.7 : 1.25} geometry="torus" color={EMBER} spin={0.35} />
+      <Shape position={[1.6, 1.9, -2]} scale={hero ? 1 : 0.8} geometry="octa" color={AMBER} spin={0.7} />
+      <Shape position={[-2.2, -1.9, -1.5]} scale={hero ? 0.95 : 0.75} geometry="box" color={EMBER} spin={0.45} />
+
+      <Rig strength={hero ? 1.1 : 0.7} />
+    </Canvas>
+  );
+}
