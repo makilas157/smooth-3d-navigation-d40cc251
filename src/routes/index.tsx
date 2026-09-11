@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero.jpg";
 import { CursorGrid } from "@/components/CursorGrid";
+import { Scene3D } from "@/components/Scene3D";
 import { CatalogCard } from "@/components/CatalogCard";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading, SectionTag } from "@/components/SectionHeading";
@@ -43,6 +44,7 @@ function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/75 to-background" />
         <CursorGrid />
+        <Scene3D variant="hero" />
         <div className="container-x relative py-20 text-center">
           <Reveal>
             <SectionTag>Next-gen tech studio</SectionTag>
