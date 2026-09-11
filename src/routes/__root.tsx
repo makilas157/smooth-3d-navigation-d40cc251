@@ -15,6 +15,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CursorSpider } from "@/components/CursorSpider";
 import { PageTransition } from "@/components/PageTransition";
+import { Scene3D } from "@/components/Scene3D";
 
 function NotFoundComponent() {
   return (
@@ -122,6 +123,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      {/* Global floating 3D shapes + lighting glows, present on every page */}
+      <Scene3D variant="ambient" />
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute -top-32 left-1/4 h-96 w-96 rounded-full bg-[#f0a83c]/10 blur-3xl" />
+        <div className="absolute bottom-0 right-1/5 h-80 w-80 rounded-full bg-[#e2703a]/10 blur-3xl" />
+      </div>
       <CursorSpider />
       <Navbar />
       <main className="min-h-screen">
