@@ -1,12 +1,8 @@
-import { ClientOnly } from "@tanstack/react-router";
-import { lazy, Suspense } from "react";
-
-// Browser-only: the WebGL canvas must never render on the server.
-const FloatingScene = lazy(() => import("./three/FloatingScene"));
-
 /**
  * Decorative 3D layer used behind page headers and the hero.
- * Pointer events pass through so the page stays fully usable.
+ * The WebGL/3D torus effect has been removed — this component
+ * now renders nothing, kept as a no-op so existing
+ * <Scene3D /> usages elsewhere in the app don't break.
  */
 export function Scene3D({
   variant = "header",
@@ -15,31 +11,5 @@ export function Scene3D({
   variant?: "hero" | "header" | "ambient";
   className?: string;
 }) {
-  if (variant === "ambient") {
-    return (
-      <div
-        aria-hidden
-        className={`pointer-events-none fixed inset-0 -z-10 overflow-hidden opacity-70 ${className}`}
-      >
-        <ClientOnly>
-          <Suspense fallback={null}>
-            <FloatingScene variant="ambient" />
-          </Suspense>
-        </ClientOnly>
-      </div>
-    );
-  }
-
-  return (
-    <div
-      aria-hidden
-      className={`pointer-events-none absolute inset-0 overflow-hidden opacity-60 mix-blend-screen ${className}`}
-    >
-      <ClientOnly>
-        <Suspense fallback={null}>
-          <FloatingScene variant={variant} />
-        </Suspense>
-      </ClientOnly>
-    </div>
-  );
+  return null;
 }
