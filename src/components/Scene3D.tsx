@@ -18,7 +18,7 @@ export function Scene3D({
   return (
     <div
       aria-hidden
-      className={`pointer-events-none absolute inset-0 overflow-hidden opacity-80 mix-blend-screen ${className}`}
+      className={`pointer-events-none absolute inset-0 overflow-hidden opacity-60 mix-blend-screen ${className}`}
     >
       <ClientOnly>
         <Suspense fallback={null}>

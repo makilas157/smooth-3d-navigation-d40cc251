@@ -98,10 +98,13 @@ export default function FloatingScene({ variant = "header" }: { variant?: Varian
         />
       </Environment>
 
-      <Shape position={[-4.2, 1.4, 0]} scale={hero ? 1.15 : 0.9} geometry="ico" color={AMBER} spin={0.5} />
-      <Shape position={[4.4, -1, -1]} scale={hero ? 1.25 : 1} geometry="torus" color={EMBER} spin={0.35} />
-      <Shape position={[2.6, 2.2, -2]} scale={hero ? 0.85 : 0.7} geometry="octa" color={AMBER} spin={0.7} />
-      <Shape position={[-2.6, -2.1, -1.5]} scale={hero ? 0.8 : 0.65} geometry="box" color={EMBER} spin={0.45} />
+      <group position={hero ? [0, 0, 0] : [2.4, 0.6, -2.5]}>
+        <Shape position={[-4.2, 1.4, 0]} scale={hero ? 1.15 : 0.9} geometry="ico" color={AMBER} spin={0.5} />
+        <Shape position={[4.4, -1, -1]} scale={hero ? 1.25 : 1} geometry="torus" color={EMBER} spin={0.35} />
+        <Shape position={[2.6, 2.2, -2]} scale={hero ? 0.85 : 0.7} geometry="octa" color={AMBER} spin={0.7} />
+        <Shape position={[-2.6, -2.1, -1.5]} scale={hero ? 0.8 : 0.65} geometry="box" color={EMBER} spin={0.45} />
+
+      </group>
 
       <Rig strength={hero ? 1.1 : 0.7} />
     </Canvas>
