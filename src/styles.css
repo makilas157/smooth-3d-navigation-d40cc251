@@ -607,3 +607,11 @@
     transform: none !important;
   }
 }
+
+/* Ambient lighting glows shown on every page (behind content) */
+.glow-amber {
+  background: color-mix(in srgb, #f0a83c 10%, transparent);
+}
+.glow-ember {
+  background: color-mix(in srgb, #e2703a 10%, transparent);
+}
