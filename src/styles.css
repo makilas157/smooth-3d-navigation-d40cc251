@@ -394,7 +394,7 @@
   padding-left: 1rem;
 }
 
-@utility reveal {
+.reveal {
   opacity: 0;
   transform: translateY(24px);
   transition:
@@ -402,9 +402,74 @@
     transform 0.7s ease;
 }
 
-@utility reveal-in {
+.reveal.reveal-in {
   opacity: 1;
   transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Page transition + entrance animations ---------- */
+
+@keyframes tvx-page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility page-enter {
+  animation: tvx-page-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes tvx-rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility rise-in {
+  animation: tvx-rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes tvx-blur-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@utility blur-in {
+  animation: tvx-blur-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter,
+  .rise-in,
+  .blur-in {
+    animation: none !important;
+  }
 }
 
 @keyframes tvx-pulse {
