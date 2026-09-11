@@ -12,9 +12,24 @@ export function Scene3D({
   variant = "header",
   className = "",
 }: {
-  variant?: "hero" | "header";
+  variant?: "hero" | "header" | "ambient";
   className?: string;
 }) {
+  if (variant === "ambient") {
+    return (
+      <div
+        aria-hidden
+        className={`pointer-events-none fixed inset-0 -z-10 overflow-hidden opacity-70 ${className}`}
+      >
+        <ClientOnly>
+          <Suspense fallback={null}>
+            <FloatingScene variant="ambient" />
+          </Suspense>
+        </ClientOnly>
+      </div>
+    );
+  }
+
   return (
     <div
       aria-hidden

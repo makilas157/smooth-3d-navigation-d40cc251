@@ -3,7 +3,7 @@ import { Environment, Float, Lightformer } from "@react-three/drei";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
-type Variant = "hero" | "header";
+type Variant = "hero" | "header" | "ambient";
 
 const AMBER = "#f0a83c";
 const EMBER = "#e2703a";
@@ -68,6 +68,49 @@ function Rig({ strength }: { strength: number }) {
 
 export default function FloatingScene({ variant = "header" }: { variant?: Variant }) {
   const hero = variant === "hero";
+  const ambient = variant === "ambient";
+
+  if (ambient) {
+    return (
+      <Canvas
+        className="pointer-events-none"
+        dpr={[1, 1.5]}
+        gl={{ antialias: true, alpha: true }}
+        camera={{ position: [0, 0, 14], fov: 50 }}
+      >
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[6, 8, 6]} intensity={1.2} color={AMBER} />
+        <pointLight position={[-8, -4, 3]} intensity={40} color={EMBER} />
+        <pointLight position={[9, 5, -2]} intensity={25} color="#ffb45e" />
+
+        <Environment resolution={64}>
+          <Lightformer intensity={2} position={[0, 5, 2]} scale={[12, 8, 1]} color="#ffd9a0" />
+          <Lightformer
+            intensity={1.2}
+            color={EMBER}
+            position={[-6, 1, -1]}
+            rotation-y={Math.PI / 2}
+            scale={[18, 2, 1]}
+          />
+          <Lightformer
+            intensity={0.9}
+            color="#8899bb"
+            position={[6, -2, 1]}
+            rotation-y={-Math.PI / 2}
+            scale={[18, 2, 1]}
+          />
+        </Environment>
+
+        <Shape position={[-7.5, 3, -4]} scale={1.4} geometry="ico" color={AMBER} spin={0.35} />
+        <Shape position={[7.8, -2.5, -5]} scale={1.6} geometry="torus" color={EMBER} spin={0.25} />
+        <Shape position={[6.5, 4, -6]} scale={1} geometry="octa" color={AMBER} spin={0.5} />
+        <Shape position={[-7, -4, -5]} scale={0.9} geometry="box" color={EMBER} spin={0.4} />
+        <Shape position={[0.5, -5, -7]} scale={1.1} geometry="octa" color={EMBER} spin={0.3} />
+
+        <Rig strength={0.8} />
+      </Canvas>
+    );
+  }
 
   return (
     <Canvas
