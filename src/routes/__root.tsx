@@ -125,19 +125,21 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Global floating 3D shapes + lighting glows, present on every page */}
       <Scene3D variant="ambient" />
-      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
         <div className="glow-amber absolute -top-32 left-1/4 h-96 w-96 rounded-full blur-3xl" />
         <div className="glow-ember absolute bottom-0 right-1/5 h-80 w-80 rounded-full blur-3xl" />
       </div>
       <CursorSpider />
       <Navbar />
-      <main className="min-h-screen">
+      <main className="relative z-10 min-h-screen">
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <PageTransition>
           <Outlet />
         </PageTransition>
       </main>
-      <Footer />
+      <div className="relative z-10">
+        <Footer />
+      </div>
     </QueryClientProvider>
   );
 }

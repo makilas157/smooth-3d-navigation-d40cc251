@@ -45,7 +45,7 @@ function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/75 to-background" />
         <CursorGrid />
         <Scene3D variant="hero" />
-        <div className="container-x relative py-20 text-center">
+        <div className="container-x relative z-10 py-20 text-center">
           <Reveal>
             <SectionTag>Next-gen tech studio</SectionTag>
           </Reveal>
