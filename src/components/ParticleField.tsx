@@ -96,9 +96,9 @@ function Field({ variant }: { variant: Variant }) {
 
       // connecting lines
       for (let i = 0; i < particles.length; i++) {
-        const a = particles[i];
+        const a = particles[i]!;
         for (let j = i + 1; j < particles.length; j++) {
-          const b = particles[j];
+          const b = particles[j]!;
           const dx = a.x - b.x;
           const dy = a.y - b.y;
           const d2 = dx * dx + dy * dy;
