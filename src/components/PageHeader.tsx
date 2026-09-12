@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { CursorGrid } from "./CursorGrid";
-import { Scene3D } from "./Scene3D";
+import { ParticleField } from "./ParticleField";
 import { SectionTag } from "./SectionHeading";
 
 export function PageHeader({
@@ -15,7 +15,7 @@ export function PageHeader({
   return (
     <section className="relative overflow-hidden border-b border-border/60 pt-32 pb-16 lg:pt-40 lg:pb-24">
       <CursorGrid />
-      <Scene3D variant="header" />
+      <ParticleField variant="header" />
       <div className="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(60%_100%_at_50%_0%,oklch(0.68_0.19_40/0.14),transparent)]" />
       <div className="container-x relative z-10 max-w-3xl">
         <div className="rise-in"><SectionTag>{tag}</SectionTag></div>
